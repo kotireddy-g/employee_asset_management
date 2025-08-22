@@ -777,6 +777,118 @@ class ApiService {
       return ApiResponse.error(_handleError(e));
     }
   }
+
+  // Asset Handover Document APIs
+  static Future<ApiResponse<Map<String, dynamic>>> generateAssetHandover(
+      String employeeId, Map<String, dynamic> handoverData) async {
+    try {
+      final response = await _dio.post('/documents/asset-handover', data: {
+        'employee_id': employeeId,
+        ...handoverData,
+      });
+      return ApiResponse.success(response.data);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
+
+  static Future<ApiResponse<Map<String, dynamic>>> getAssetHandoverData(
+      String employeeId) async {
+    try {
+      final response = await _dio.get('/documents/asset-handover/$employeeId');
+      return ApiResponse.success(response.data['data']);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
+
+  static Future<ApiResponse<List<dynamic>>> getEmployeeAssets(
+      String employeeId) async {
+    try {
+      final response = await _dio.get('/employees/$employeeId/assets');
+      return ApiResponse.success(response.data['data']);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
+
+  // No Dues Certificate APIs
+  static Future<ApiResponse<Map<String, dynamic>>> generateNoDuesCertificate(
+      String employeeId, Map<String, dynamic> noDuesData) async {
+    try {
+      final response = await _dio.post('/documents/no-dues-certificate', data: {
+        'employee_id': employeeId,
+        ...noDuesData,
+      });
+      return ApiResponse.success(response.data);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
+
+  static Future<ApiResponse<Map<String, dynamic>>> getNoDuesData(
+      String employeeId) async {
+    try {
+      final response = await _dio.get('/documents/no-dues-certificate/$employeeId');
+      return ApiResponse.success(response.data['data']);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
+
+  static Future<ApiResponse<Map<String, dynamic>>> updateExitChecklist(
+      String employeeId, List<Map<String, dynamic>> checklistData) async {
+    try {
+      final response = await _dio.put('/employees/$employeeId/exit-checklist', data: {
+        'checklist': checklistData,
+      });
+      return ApiResponse.success(response.data);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
+
+  // Employee resignation/exit APIs
+  static Future<ApiResponse<Map<String, dynamic>>> initiateEmployeeExit(
+      String employeeId, Map<String, dynamic> exitData) async {
+    try {
+      final response = await _dio.post('/employees/$employeeId/initiate-exit', data: exitData);
+      return ApiResponse.success(response.data);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
+
+  static Future<ApiResponse<Map<String, dynamic>>> completeEmployeeExit(
+      String employeeId) async {
+    try {
+      final response = await _dio.post('/employees/$employeeId/complete-exit');
+      return ApiResponse.success(response.data);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
+
+  // Document history and tracking
+  static Future<ApiResponse<List<dynamic>>> getEmployeeDocuments(
+      String employeeId) async {
+    try {
+      final response = await _dio.get('/employees/$employeeId/documents');
+      return ApiResponse.success(response.data['data']);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
+
+  static Future<ApiResponse<Map<String, dynamic>>> saveGeneratedDocument(
+      Map<String, dynamic> documentData) async {
+    try {
+      final response = await _dio.post('/documents/save', data: documentData);
+      return ApiResponse.success(response.data);
+    } catch (e) {
+      return ApiResponse.error(_handleError(e));
+    }
+  }
 }
 
 class ApiResponse<T> {
